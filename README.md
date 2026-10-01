@@ -2,6 +2,13 @@
     <h1>Laravel Telegram Alerts</h1>
     <p>Send alerts to Telegram from your Laravel app.</p>
     <sub>Based on <a href="https://github.com/laravel/package-skeleton">laravel/package-skeleton</a>, thanks to the Laravel team!</sub>
+    <p>
+        <a href="https://github.com/balazstanka/laravel-telegram-alerts/actions/workflows/tests.yml"><img src="https://github.com/balazstanka/laravel-telegram-alerts/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+        <a href="https://packagist.org/packages/balazstanka/laravel-telegram-alerts"><img src="https://img.shields.io/packagist/v/balazstanka/laravel-telegram-alerts" alt="Latest Version"></a>
+        <a href="https://packagist.org/packages/balazstanka/laravel-telegram-alerts"><img src="https://img.shields.io/packagist/dt/balazstanka/laravel-telegram-alerts" alt="Total Downloads"></a>
+        <a href="https://packagist.org/packages/balazstanka/laravel-telegram-alerts"><img src="https://img.shields.io/packagist/php-v/balazstanka/laravel-telegram-alerts" alt="PHP Version"></a>
+        <a href="LICENSE.md"><img src="https://img.shields.io/packagist/l/balazstanka/laravel-telegram-alerts" alt="License"></a>
+    </p>
 </div>
 
 ## Installation
