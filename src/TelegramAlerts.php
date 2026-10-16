@@ -11,6 +11,7 @@ use BalazsTanka\TelegramAlerts\Exceptions\TelegramException;
 use BalazsTanka\TelegramAlerts\Exceptions\TelegramInvalidChat;
 use BalazsTanka\TelegramAlerts\Exceptions\TelegramInvalidParseMode;
 use BalazsTanka\TelegramAlerts\Exceptions\TelegramMissingToken;
+use BalazsTanka\TelegramAlerts\Exceptions\TelegramUrlTextAlreadyExists;
 use BalazsTanka\TelegramAlerts\Jobs\SendTelegramMessage;
 use BalazsTanka\TelegramAlerts\Services\TelegramClient;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +32,9 @@ class TelegramAlerts
     private int $delaySeconds = 0;
 
     private bool $sync = false;
+
+    /** @var array<string, string> */
+    private array $urls = [];
 
     /**
      * A chat name from the config, a chat id or a @channelusername.
@@ -68,6 +72,22 @@ class TelegramAlerts
     public function plainText(): self
     {
         return $this->parseMode(null);
+    }
+
+    public function addUrl(string $text, string $url): self
+    {
+        if ($text === '' || $url === '') {
+            return $this;
+        }
+
+        if (array_key_exists($text, $this->urls)) {
+            throw TelegramUrlTextAlreadyExists::make($text);
+        }
+
+        $clone = clone $this;
+        $clone->urls[$text] = $url;
+
+        return $clone;
     }
 
     /**
@@ -182,6 +202,7 @@ class TelegramAlerts
             'parse_mode' => $this->parseMode?->value,
             'message_thread_id' => $this->threadId,
             'disable_notification' => $this->silent ?: null,
+            'reply_markup' => empty($this->urls) ? null : $this->buildReplyMarkup($this->urls),
         ], fn (mixed $value): bool => $value !== null);
     }
 
@@ -269,5 +290,23 @@ class TelegramAlerts
                 Sleep::for(min($e->retryAfter ?? $attempt, 5))->seconds();
             }
         }
+    }
+
+    /**
+     * @param  array<string, string>  $urls
+     */
+    private function buildReplyMarkup(array $urls): object
+    {
+        $formattedUrls = [];
+        foreach ($urls as $text => $url) {
+            $formattedUrls[] = [[
+                'text' => $text,
+                'url' => $url,
+            ]];
+        }
+
+        return (object) [
+            'inline_keyboard' => $formattedUrls,
+        ];
     }
 }

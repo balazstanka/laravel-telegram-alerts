@@ -7,6 +7,7 @@ use BalazsTanka\TelegramAlerts\Exceptions\TelegramEmptyMessage;
 use BalazsTanka\TelegramAlerts\Exceptions\TelegramInvalidChat;
 use BalazsTanka\TelegramAlerts\Exceptions\TelegramInvalidParseMode;
 use BalazsTanka\TelegramAlerts\Exceptions\TelegramMissingToken;
+use BalazsTanka\TelegramAlerts\Exceptions\TelegramUrlTextAlreadyExists;
 use BalazsTanka\TelegramAlerts\Facades\TelegramAlerts;
 use BalazsTanka\TelegramAlerts\Jobs\SendTelegramMessage;
 use Illuminate\Support\Facades\Bus;
@@ -141,3 +142,37 @@ describe('invalid input', function () {
         Bus::assertNothingDispatched();
     });
 });
+
+it('can send url with text', function () {
+    TelegramAlerts::addUrl('button', 'hello.com')->message('hello');
+
+    Bus::assertDispatched(SendTelegramMessage::class, function ($job) {
+        $payload = $job->payload;
+
+        return array_key_exists('reply_markup', $payload) && $payload['reply_markup']->inline_keyboard[0][0]['text'] === 'button';
+    });
+});
+
+it('can skip empty text or url', function () {
+    TelegramAlerts::addUrl('', 'hello.com')->message('hello');
+
+    Bus::assertDispatched(SendTelegramMessage::class, function ($job) {
+        $payload = $job->payload;
+
+        return ! array_key_exists('reply_markup', $payload);
+    });
+});
+
+it('can keep the correct text and url', function () {
+    TelegramAlerts::addUrl('', 'hello.com')->addUrl('ok', 'ok.com')->message('hello');
+
+    Bus::assertDispatched(SendTelegramMessage::class, function ($job) {
+        $payload = $job->payload;
+
+        return array_key_exists('reply_markup', $payload) && $payload['reply_markup']->inline_keyboard[0][0]['text'] === 'ok';
+    });
+});
+
+it('throw exception if the url text already exists', function () {
+    TelegramAlerts::addUrl('testButton', 'hello.com')->addUrl('testButton', 'hello.com')->message('hello');
+})->throws(TelegramUrlTextAlreadyExists::class);
