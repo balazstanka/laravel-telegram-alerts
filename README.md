@@ -87,6 +87,18 @@ TelegramAlerts::to('ops')
     ->message('Nightly backup finished');
 ```
 
+### Link buttons
+
+Use `addUrl($text, $url)` to add an inline keyboard button that opens a link. Each button is placed on its own row:
+
+```php
+TelegramAlerts::addUrl('Open dashboard', 'https://example.com/dashboard')
+    ->addUrl('View logs', 'https://example.com/logs')
+    ->message('Payment failed');
+```
+
+A button with an empty text or URL is skipped. Adding a second button with the same text throws a `TelegramUrlTextAlreadyExists` exception.
+
 ### Errors
 
 An empty message, an unknown chat or a missing token throws a `TelegramException`, so you notice it during development. In production these are logged instead, and the request keeps working.

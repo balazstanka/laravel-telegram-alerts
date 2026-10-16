@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \BalazsTanka\TelegramAlerts\TelegramAlerts sync(bool $sync = true)
  * @method static string escape(string $text, \BalazsTanka\TelegramAlerts\Enums\ParseMode $parseMode = \BalazsTanka\TelegramAlerts\Enums\ParseMode::HTML)
  * @method static void message(string $text)
+ * @method static \BalazsTanka\TelegramAlerts\TelegramAlerts addUrl(string $text, string $url)
  *
  * @see \BalazsTanka\TelegramAlerts\TelegramAlerts
  */

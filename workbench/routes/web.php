@@ -11,6 +11,7 @@ Route::get('/telegram-test', function () {
     //
     TelegramAlerts::sync()
         ->html()
+        ->addUrl('test', 'https://google.com')
         ->message("<b>Test</b> message from the\nworkbench: ".TelegramAlerts::escape('<1 & 2>'.' ..random emoji: 🎫'));
 
     // TelegramAlerts::sync()
