@@ -1,6 +1,28 @@
 # Release Notes
 
-## [Unreleased](https://github.com/balazstanka/laravel-telegram-alerts/compare/v1.0.0...HEAD)
+## [Unreleased](https://github.com/balazstanka/laravel-telegram-alerts/compare/v1.1.0...HEAD)
+
+## [v1.1.0](https://github.com/balazstanka/laravel-telegram-alerts/compare/v1.0.0...v1.1.0) - 2026-10-16
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+Add inline keyboard link buttons with `addUrl($text, $url)`. See the README for details.
+
+#### Enhancements
+
+* feat: add inline keyboard URL buttons with addUrl() by @balazstanka in https://github.com/balazstanka/laravel-telegram-alerts/pull/2
+
+#### Other Changes
+
+* Bump shivammathur/setup-php from 2.37.2 to 2.40.0 by @dependabot[bot] in https://github.com/balazstanka/laravel-telegram-alerts/pull/1
+
+### New Contributors
+
+* @dependabot[bot] made their first contribution in https://github.com/balazstanka/laravel-telegram-alerts/pull/1
+* @balazstanka made their first contribution in https://github.com/balazstanka/laravel-telegram-alerts/pull/2
+
+**Full Changelog**: https://github.com/balazstanka/laravel-telegram-alerts/compare/v1.0.0...v1.1.0
 
 ## [v1.0.0](https://github.com/balazstanka/laravel-telegram-alerts/compare/v1.0.0...v1.0.0) - 2026-10-01
 
